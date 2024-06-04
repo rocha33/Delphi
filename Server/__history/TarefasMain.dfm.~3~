@@ -1,0 +1,77 @@
+object FormMain: TFormMain
+  Left = 0
+  Top = 0
+  Caption = 'Main Form'
+  ClientHeight = 211
+  ClientWidth = 332
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object LabelTitle: TLabel
+    Left = 8
+    Top = 8
+    Width = 24
+    Height = 13
+    Caption = 'Title:'
+  end
+  object LabelDescription: TLabel
+    Left = 8
+    Top = 144
+    Width = 57
+    Height = 13
+    Caption = 'Description:'
+  end
+  object EditTitle: TEdit
+    Left = 72
+    Top = 5
+    Width = 249
+    Height = 21
+    TabOrder = 0
+    Text = 'Nova Tarefa'
+  end
+  object MemoDescription: TMemo
+    Left = 8
+    Top = 32
+    Width = 313
+    Height = 103
+    Lines.Strings = (
+      'Descri'#195#167#195#163'o da Tarefa')
+    TabOrder = 1
+  end
+  object ButtonAddTask: TButton
+    Left = 124
+    Top = 168
+    Width = 75
+    Height = 25
+    Caption = 'Adicionar Tarefa'
+    Default = True
+    TabOrder = 2
+  end
+  object RESTClient: TRESTClient
+    Accept = 'application/json'
+    Params = <>
+    HandleRedirects = True
+    SynchronizedEvents = False
+    Left = 64
+    Top = 112
+  end
+  object RESTRequest: TRESTRequest
+    Client = RESTClient
+    Params = <>
+    Response = RESTResponse
+    SynchronizedEvents = False
+    Left = 128
+    Top = 112
+  end
+  object RESTResponse: TRESTResponse
+    ContentType = 'application/json'
+    Left = 192
+    Top = 112
+  end
+end

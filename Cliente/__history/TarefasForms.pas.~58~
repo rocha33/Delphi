@@ -1,0 +1,247 @@
+unit TarefasForms;
+
+interface
+
+uses
+ Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, REST.Client, REST.Types, System.JSON,
+  IPPeerClient, Data.Bind.Components, Data.Bind.ObjectScope, Vcl.ComCtrls,
+  Vcl.Grids,System.Net.HttpClient;
+
+
+type
+  TfrmMain = class(TForm)
+    pgcPrincipal: TPageControl;
+    RESTClient: TRESTClient;
+    RESTRequest: TRESTRequest;
+    RESTResponse: TRESTResponse;
+    tsAddTarefas: TTabSheet;
+    tsListasTarefas: TTabSheet;
+    tsTeste: TTabSheet;
+    btnRemovertarefa: TButton;
+    StringGridListas: TStringGrid;
+    lblQtdTarefas1: TLabel;
+    lblQtdTarefas: TLabel;
+    Label1: TLabel;
+    lblQtdTarefasPriority: TLabel;
+    EditTitle: TEdit;
+    MemoDescription: TMemo;
+    btnAddTarefa: TButton;
+    btnMudarstatus: TButton;
+    cbbStatus: TComboBox;
+    procedure btnAddTarefaClick(Sender: TObject);
+    procedure btnRemovertarefaClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure btnMudarstatusClick(Sender: TObject);
+  private
+    { Private declarations }
+
+    procedure ListarTarefas;
+    procedure GetPriorityTarefas();
+    procedure GetTotais();
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMain: TfrmMain;
+
+implementation
+  uses TarefasFuncoes;
+
+{$R *.dfm}
+
+procedure TfrmMain.btnAddTarefaClick(Sender: TObject);
+var
+  TaskData: TJSONObject;
+  vTarefasFuncoes: TTarefasFuncoes;
+begin
+  vTarefasFuncoes:= TTarefasFuncoes.create;
+  try
+    if(vTarefasFuncoes.AddTarefa(EditTitle.Text, MemoDescription.Text))then
+      ListarTarefas();
+  finally
+    FreeAndNil(vTarefasFuncoes);
+  end;
+  // Criação de um objeto JSON com os dados da tarefa
+  {MemoDescription.Text :=  Trim(StringReplace(MemoDescription.Text, #13#10, '\n', [rfReplaceAll]));
+
+  TaskData := TJSONObject.Create;
+  try
+    TaskData.AddPair('Title', EditTitle.Text);
+    TaskData.AddPair('Description', MemoDescription.Text);
+    TaskData.AddPair('Status', 'Pendente');
+    TaskData.AddPair('Priority', TJSONNumber.Create(1)); // Prioridade da tarefa
+
+    // Configuração da requisição
+    RESTClient.BaseURL := 'http://localhost:9000'; // Altere para o endereço do seu servidor Horse
+    RESTClient.Accept := 'application/json';
+    RESTClient.ContentType := 'application/json';
+
+    RESTRequest.Method := rmPOST;
+    RESTRequest.Resource := '/tasks';
+    RESTRequest.AddBody(TaskData.ToString, ctAPPLICATION_JSON);
+
+    ShowMessage(TaskData.ToString);
+
+    // Envio da requisição
+    RESTRequest.Execute;
+
+    // Verificação da resposta
+    if RESTResponse.StatusCode = 200 then
+      ShowMessage('Tarefa adicionada com sucesso!')
+    else
+      ShowMessage('Erro ao adicionar tarefa: ' + RESTResponse.Content);
+
+    // Liberação de recursos
+  finally
+    TaskData.Free;
+  end;   }
+
+end;
+
+procedure TfrmMain.ListarTarefas;
+var
+  Tasks: TJSONArray;
+  Task: TJSONObject;
+  i, Row: Integer;
+
+  vTarefasFuncoes: TTarefasFuncoes;
+begin
+  vTarefasFuncoes:= TTarefasFuncoes.create;
+  try
+    Tasks := vTarefasFuncoes.ListarTarefas();
+
+  finally
+    FreeAndNil(vTarefasFuncoes);
+  end;
+
+  StringGridListas.RowCount := Tasks.Count + 1; // Número de tarefas + cabeçalho
+
+  // Preencher o grid com os dados das tarefas
+  for i := 0 to Tasks.Count - 1 do
+  begin
+    Task := Tasks.Items[i] as TJSONObject;
+    Row := i + 1; // Primeira linha de dados
+
+    StringGridListas.Cells[0, Row] := Task.GetValue('TaskID').Value;
+    StringGridListas.Cells[1, Row] := Task.GetValue('Title').Value;
+    StringGridListas.Cells[2, Row] := Task.GetValue('Description').Value;
+    StringGridListas.Cells[3, Row] := Task.GetValue('Status').Value;
+    StringGridListas.Cells[4, Row] := Task.GetValue('Priority').Value;
+    StringGridListas.Cells[5, Row] := Task.GetValue('CreatedAt').Value;
+    StringGridListas.Cells[6, Row] := Task.GetValue('UpdatedAt').Value;
+  end;
+end;
+
+procedure TfrmMain.GetPriorityTarefas();
+var
+  RESTClient: TRESTClient;
+  RESTRequest: TRESTRequest;
+  RESTResponse: TRESTResponse;
+  TotalTasks: Integer;
+  JSONValue: TJSONValue;
+begin
+  // Configuração do cliente REST
+  RESTClient := TRESTClient.Create('http://localhost:9000'); // Endereço do seu servidor Horse
+  RESTRequest := TRESTRequest.Create(nil);
+  RESTResponse := TRESTResponse.Create(nil);
+  try
+    RESTRequest.Client := RESTClient;
+    RESTRequest.Response := RESTResponse;
+    RESTRequest.Method := rmGET;
+    RESTRequest.Resource := '/GetAveragePendingPriority';
+
+    RESTRequest.Execute;
+
+      // Verificação da resposta
+    if RESTResponse.StatusCode = 200 then
+    begin
+      lblQtdTarefasPriority.caption := RESTResponse.Content;
+    end
+    else
+    begin
+      lblQtdTarefasPriority.caption := '0';
+      ShowMessage('Erro ao obter o total de tarefas: ' + RESTResponse.StatusText);
+    end;
+  finally
+    RESTClient.Free;
+    RESTRequest.Free;
+    RESTResponse.Free;
+  end;
+
+end;
+
+procedure TfrmMain.btnRemovertarefaClick(Sender: TObject);
+var
+  TaskID: string;
+  vTarefasFuncoes: TTarefasFuncoes;
+begin
+  vTarefasFuncoes:= TTarefasFuncoes.create;
+  try
+    TaskID := StringGridListas.Cells[0, StringGridListas.Row];
+
+    if(TaskID <> '') and (vTarefasFuncoes.RemoverTarefa(TaskID))then
+      GetTotais();
+  finally
+    FreeAndNil(vTarefasFuncoes);
+  end;
+
+end;
+
+procedure TfrmMain.GetTotais();
+var vTarefasFuncoes: TTarefasFuncoes;
+begin
+  vTarefasFuncoes:= TTarefasFuncoes.create;
+  try
+    lblQtdTarefas.caption := intToStr(vTarefasFuncoes.GetTotalTarefas());
+    lblQtdTarefasPriority.caption := intToStr(vTarefasFuncoes.GetPriorityTarefas());
+
+  finally
+    FreeAndNil(vTarefasFuncoes);
+  end;
+end;
+procedure TfrmMain.btnMudarstatusClick(Sender: TObject);
+var
+  vTaskID: string;
+  vNewStatus: string;
+  vTarefasFuncoes: TTarefasFuncoes;
+begin
+  vTaskID := StringGridListas.Cells[0, StringGridListas.Row];
+  if Trim(vTaskID) = '' then
+  begin
+    ShowMessage('Nenhuma tarefa selecionada.');
+    Exit;
+  end;
+
+  // Supondo que você tem um campo ou variável para o novo status
+  vNewStatus := cbbStatus.text; // Altere conforme necessário
+
+  vTarefasFuncoes:= TTarefasFuncoes.create;
+  try
+    if(vTarefasFuncoes.UpdateStatus(vTaskID, vNewStatus))then
+      GetTotais();
+  finally
+    FreeAndNil(vTarefasFuncoes);
+  end;
+
+end;
+
+
+procedure TfrmMain.FormCreate(Sender: TObject);
+var vTarefasFuncoes: TTarefasFuncoes;
+begin
+  StringGridListas.ColCount := 6;
+  StringGridListas.Cells[0, 0] := 'TaskID';
+  StringGridListas.Cells[1, 0] := 'Title';
+  StringGridListas.Cells[2, 0] := 'Description';
+  StringGridListas.Cells[3, 0] := 'Status';
+  StringGridListas.Cells[4, 0] := 'Priority';
+  StringGridListas.Cells[5, 0] := 'CreatedAt';
+
+  GetTotais();
+  ListarTarefas();
+
+end;
+
+end.

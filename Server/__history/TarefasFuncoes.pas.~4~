@@ -1,0 +1,88 @@
+unit TarefasFuncoes;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, REST.Client, REST.Types, System.JSON,
+  IPPeerClient, Data.Bind.Components, Data.Bind.ObjectScope, Vcl.ComCtrls,
+  Vcl.Grids,System.Net.HttpClient;
+
+type
+  TTarefasFuncoes = class
+  private
+    FRESTClient: TRESTClient;
+    FRESTRequest: TRESTRequest;
+    FRESTResponse: TRESTResponse;
+    FBaseURL: string;
+    function GetBaseURL: string;
+    procedure SetBaseURL(const Value: string);
+  public
+    constructor Create;
+    destructor Destroy; override;
+    function UpdateStatus(TaskID: string; NewStatus: string): boolean;
+    property BaseURL: string read GetBaseURL write SetBaseURL;
+  end;
+
+implementation
+
+{ TTaskUpdater }
+
+constructor TTarefasFuncoes.Create;
+begin
+  inherited Create;
+  FRESTClient := TRESTClient.Create(nil);
+  FRESTRequest := TRESTRequest.Create(nil);
+  FRESTResponse := TRESTResponse.Create(nil);
+
+  FRESTClient.ContentType := 'application/json';
+  FRESTClient.BaseURL := 'http://localhost:9000'; // Altere para o endereço do seu servidor Horse
+  FRESTClient.Accept := 'application/json';
+  FRESTClient.ContentType := 'application/json';
+
+  FRESTRequest.Client := FRESTClient;
+  FRESTRequest.Response := FRESTResponse;
+  FRESTRequest.Accept := 'application/json';
+
+end;
+
+destructor TTarefasFuncoes.Destroy;
+begin
+  FRESTRequest.Free;
+  FRESTResponse.Free;
+  FRESTClient.Free;
+  inherited;
+end;
+
+function TTarefasFuncoes.GetBaseURL: string;
+begin
+  Result := FBaseURL;
+end;
+
+procedure TTarefasFuncoes.SetBaseURL(const Value: string);
+begin
+  FBaseURL := Value;
+  FRESTClient.BaseURL := FBaseURL;
+end;
+
+function TTarefasFuncoes.UpdateStatus(TaskID: string; NewStatus: string): boolean;
+begin
+  // Configuração do RESTClient e RESTRequest
+    FRESTClient.BaseURL := 'http://localhost:9000';
+    FRESTRequest.Method := TRESTRequestMethod.rmPUT;
+    FRESTRequest.Resource := '/UpdateTarefaStatus/' + TaskID + '/status/' + NewStatus;
+    // Envio da solicitação
+    FRESTRequest.Execute;
+
+  // Verificação da resposta
+  if FRESTResponse.StatusCode = 200 then
+  begin
+    Result := True;
+    ShowMessage('Status da tarefa atualizado com sucesso!');
+  end
+  else
+    ShowMessage('Erro ao atualizar status da tarefa: ' + FRESTResponse.Content);
+end;
+
+end.
+

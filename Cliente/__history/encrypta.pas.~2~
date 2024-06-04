@@ -1,0 +1,56 @@
+unit encrypta;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+   DCPCrypt2, DCPblockciphers, DCPrijndael,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+    function EncryptAES(const text, password: string): string;
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+function TForm1.EncryptAES(const text, password: string): string;
+var
+  Cipher: TDCP_rijndael;
+  KeyBytes, InputBytes, EncryptedBytes: TBytes;
+begin
+  KeyBytes := TEncoding.UTF8.GetBytes(password);
+
+  // Inicializa o vetor de inicialização (iv) com zeros (como no código original)
+  SetLength(KeyBytes, 16);
+  FillChar(KeyBytes[0], 16, 0);
+
+  Cipher := TDCP_rijndael.Create(nil);
+  try
+    Cipher.Init(KeyBytes[0], 128, @KeyBytes[0]);
+    InputBytes := TEncoding.UTF8.GetBytes(text);
+    SetLength(EncryptedBytes, Cipher.BufferSize);
+    Cipher.EncryptCBC(InputBytes[0], EncryptedBytes[0], Length(InputBytes));
+  finally
+    Cipher.Free;
+  end;
+
+  Result := TBase64Encoding.Base64.EncodeBytesToString(EncryptedBytes);
+end;
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+   EncryptAES('','');
+end;
+
+end.

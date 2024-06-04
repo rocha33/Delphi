@@ -1,0 +1,27 @@
+unit teste_texto;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, WPRTEDefs, WPCTRMemo, WPCTRRich, WPUtil,
+  Wpspdlg1;
+
+type
+  TForm1 = class(TForm)
+    WPRichText1: TWPRichText;
+    WPSpellCheckDlg1: TWPSpellCheckDlg;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+end.

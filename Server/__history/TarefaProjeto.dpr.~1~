@@ -1,0 +1,14 @@
+program TarefaProjeto;
+
+uses
+  Vcl.Forms,
+  TarefasMain in 'TarefasMain.pas' {Form1};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TFormMain, FormMain);
+  Application.Run;
+end.
