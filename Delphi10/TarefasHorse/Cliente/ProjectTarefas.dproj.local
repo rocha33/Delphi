@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/06/03 12:54:44.000.882,=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/06/03 13:00:23.000.690,C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\TarefasForms.dfm</Transaction>
+    <Transaction>2024/06/03 13:00:23.000.690,C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\TarefasForms.pas</Transaction>
+    <Transaction>2024/06/03 13:27:22.000.227,C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\ProjectTarefas.dproj</Transaction>
+    <Transaction>2024/06/04 00:03:32.000.247,=C:\Users\Desenvolvedor\Documents\GitHub\Delphi\Cliente\TarefasFuncoes.pas</Transaction>
+  </Transactions>
+</BorlandProject>
