@@ -112,7 +112,7 @@ begin
   Status := Req.Params['status'];
   vQuery := TFDQuery.Create(nil);
   try
-    vQuery.Connection := FDConnection;
+    vQuery.Connection := FDConnection;                        // se for sql mudar now() para DATEADD
     vQuery.SQL.Text := 'UPDATE Tasks SET Status = :Status, UpdatedAt = Now() WHERE TaskID = :TaskID';
     vQuery.ParamByName('Status').AsString := Status;
     vQuery.ParamByName('TaskID').AsInteger := TaskID;
@@ -182,12 +182,12 @@ var
   CompletedTasks: Integer;
 begin
   vQuery := TFDQuery.Create(nil);
-  try
+  try                                                                                              //se sql usar UpdatedAt >= DATEADD(day, -7, GETDATE())
     vQuery.Connection := FDConnection;
-    vQuery.SQL.Text := 'SELECT COUNT(*) AS CompletedTasks FROM Tasks WHERE Status = "Completo" AND UpdatedAt >= DATEADD(day, -7, GETDATE())';
+    vQuery.SQL.Text := 'SELECT COUNT(*) AS CompletedTasks FROM Tasks WHERE Status = "Completo" AND UpdatedAt >= DATE_SUB(NOW(), INTERVAL 7 DAY)';
     vQuery.Open;
     CompletedTasks := vQuery.FieldByName('CompletedTasks').AsInteger;
-    Res.Send(TJSONObject.Create.AddPair('CompletedTasks', TJSONNumber.Create(CompletedTasks)));
+    Res.Send(inttoStr(CompletedTasks));
   finally
     vQuery.Free;
   end;

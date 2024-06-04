@@ -26,6 +26,7 @@ type
     function  ListarTarefas():TJSONArray;
     function GetPriorityTarefas(): integer;
     function AddTarefa(pTitulo: string; pDescricao: string): boolean;
+    function GetCompletotarefasUtimos7Dias(): string;
     property BaseURL: string read GetBaseURL write SetBaseURL;
   end;
 
@@ -141,8 +142,26 @@ begin
   begin
     ShowMessage('Erro ao obter o total de tarefas: ' + FRESTResponse.StatusText);
   end;
+end;
 
+function TTarefasFuncoes.GetCompletotarefasUtimos7Dias(): string;
+begin
+  FRESTRequest.Response := FRESTResponse;
+  FRESTRequest.Resource := '/GetCompletedTasksLast7Days';
+  FRESTRequest.Method := rmGET;
 
+  Result := '0';
+
+  // Envio da requisição
+  FRESTRequest.Execute;
+
+  // Verificação da resposta
+  if FRESTResponse.StatusCode = 200 then
+    Result :=  FRESTResponse.Content
+  else
+  begin
+    ShowMessage('Erro ao buscar tarefas completadas: ' + FRESTResponse.Content);
+  end;
 end;
 
 function TTarefasFuncoes.GetTotalTarefas(): integer;

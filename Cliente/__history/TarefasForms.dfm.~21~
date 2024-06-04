@@ -1,0 +1,158 @@
+object frmMain: TfrmMain
+  Left = 0
+  Top = 0
+  Caption = 'Tarefas'
+  ClientHeight = 407
+  ClientWidth = 490
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object lblQtdTarefas1: TLabel
+    Left = 8
+    Top = 386
+    Width = 62
+    Height = 13
+    Caption = 'Qtd Tarefas:'
+  end
+  object lblQtdTarefas: TLabel
+    Left = 72
+    Top = 387
+    Width = 6
+    Height = 13
+    Caption = '0'
+  end
+  object Label1: TLabel
+    Left = 119
+    Top = 387
+    Width = 76
+    Height = 13
+    Caption = 'Qtd Prioritarias:'
+  end
+  object lblQtdTarefasPriority: TLabel
+    Left = 201
+    Top = 386
+    Width = 6
+    Height = 13
+    Caption = '0'
+  end
+  object pgcPrincipal: TPageControl
+    Left = 2
+    Top = 0
+    Width = 490
+    Height = 369
+    ActivePage = tsListasTarefas
+    TabOrder = 0
+    object tsListasTarefas: TTabSheet
+      Caption = 'Listas Tarefas'
+      ImageIndex = 1
+      ExplicitLeft = 6
+      ExplicitTop = 28
+      ExplicitWidth = 0
+      ExplicitHeight = 0
+      object btnRemovertarefa: TButton
+        Left = 366
+        Top = 313
+        Width = 113
+        Height = 25
+        Caption = 'Remover'
+        TabOrder = 3
+        OnClick = btnRemovertarefaClick
+      end
+      object StringGridListas: TStringGrid
+        Left = 24
+        Top = 111
+        Width = 455
+        Height = 186
+        ColCount = 6
+        FixedCols = 0
+        TabOrder = 4
+        ColWidths = (
+          64
+          64
+          64
+          64
+          64
+          64)
+        RowHeights = (
+          24
+          24
+          24
+          24
+          24)
+      end
+      object EditTitle: TEdit
+        Left = 24
+        Top = 14
+        Width = 368
+        Height = 21
+        TabOrder = 0
+      end
+      object MemoDescription: TMemo
+        Left = 24
+        Top = 43
+        Width = 441
+        Height = 62
+        TabOrder = 1
+      end
+      object btnAddTarefa: TButton
+        Left = 398
+        Top = 12
+        Width = 67
+        Height = 25
+        Caption = 'Add Tarefa'
+        TabOrder = 2
+        OnClick = btnAddTarefaClick
+      end
+      object btnMudarstatus: TButton
+        Left = 195
+        Top = 313
+        Width = 113
+        Height = 25
+        Caption = 'Mudar Status'
+        TabOrder = 5
+        OnClick = btnMudarstatusClick
+      end
+      object cbbStatus: TComboBox
+        Left = 24
+        Top = 314
+        Width = 165
+        Height = 21
+        TabOrder = 6
+        Text = 'Pendente'
+        Items.Strings = (
+          'Pendente'
+          'Completo')
+      end
+    end
+  end
+  object RESTClient: TRESTClient
+    Accept = 'application/json'
+    Params = <
+      item
+      end>
+    HandleRedirects = True
+    SynchronizedEvents = False
+    Left = 128
+    Top = 432
+  end
+  object RESTRequest: TRESTRequest
+    Client = RESTClient
+    Params = <>
+    Response = RESTResponse
+    SynchronizedEvents = False
+    Left = 192
+    Top = 432
+  end
+  object RESTResponse: TRESTResponse
+    ContentType = 'application/json'
+    Left = 256
+    Top = 432
+  end
+end

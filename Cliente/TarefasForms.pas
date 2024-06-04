@@ -27,6 +27,8 @@ type
     btnAddTarefa: TButton;
     btnMudarstatus: TButton;
     cbbStatus: TComboBox;
+    Label2: TLabel;
+    lblQtdCompleta7Dias: TLabel;
     procedure btnAddTarefaClick(Sender: TObject);
     procedure btnRemovertarefaClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
@@ -122,6 +124,7 @@ begin
   try
     lblQtdTarefas.caption := intToStr(vTarefasFuncoes.GetTotalTarefas());
     lblQtdTarefasPriority.caption := intToStr(vTarefasFuncoes.GetPriorityTarefas());
+    lblQtdCompleta7Dias.caption := vTarefasFuncoes.GetCompletotarefasUtimos7Dias();
     ListarTarefas();
   finally
     FreeAndNil(vTarefasFuncoes);

@@ -42,6 +42,20 @@ object frmMain: TfrmMain
     Height = 13
     Caption = '0'
   end
+  object Label2: TLabel
+    Left = 260
+    Top = 386
+    Width = 126
+    Height = 13
+    Caption = 'Qtd Completas nos 7 dias:'
+  end
+  object lblQtdCompleta7Dias: TLabel
+    Left = 392
+    Top = 386
+    Width = 6
+    Height = 13
+    Caption = '0'
+  end
   object pgcPrincipal: TPageControl
     Left = 2
     Top = 0
@@ -52,10 +66,6 @@ object frmMain: TfrmMain
     object tsListasTarefas: TTabSheet
       Caption = 'Listas Tarefas'
       ImageIndex = 1
-      ExplicitLeft = 6
-      ExplicitTop = 28
-      ExplicitWidth = 0
-      ExplicitHeight = 0
       object btnRemovertarefa: TButton
         Left = 366
         Top = 313
