@@ -1,0 +1,177 @@
+unit Rotinas;
+
+interface
+
+  uses
+    System.SysUtils, System.Variants, System.Classes, FireDAC.Comp.Client, Data.DB;
+
+  function Encripta(texto: string): string;
+  function Decripta(senha: string): string;
+  Function ExportarQueryCSV(QueryCsv: TFDQuery; FileName: String) :Boolean;
+  function ReplaceParams(pTextoSQL: string; pParam1, pParam2: string): string;
+  function FieldTypeToStr(AType: TFieldType; Sender: TObject): string;
+
+
+implementation
+
+
+function Encripta(texto: string): string;
+var
+   sfinal: string;
+   i, muda: integer;
+begin
+   sfinal := '';
+   muda := 0;
+   for i := 1 to length(texto) do
+   begin
+      if muda = 9 then
+         muda := 1
+      else
+         inc(muda);
+      texto[i] := chr(ord(texto[i]) + muda);
+      sfinal := sfinal + texto[i];
+   end;
+   Result := sfinal;
+end;
+
+function Decripta(senha: string): string;
+var
+   sfinal: string;
+   i, muda: integer;
+begin
+   if senha = '' then
+   begin
+      Result := '';
+      exit;
+   end;
+
+   sfinal := '';
+   muda := 0;
+   for i := 1 to length(senha) do
+   begin
+      if muda = 9 then
+         muda := 1
+      else
+         inc(muda);
+      senha[i] := chr(ord(senha[i]) - muda);
+      sfinal := sfinal + senha[i];
+   end;
+   Result := sfinal;
+end;
+
+Function ExportarQueryCSV(QueryCsv: TFDQuery; FileName: String) :Boolean;
+const
+  Delimiter: Char = ';'; {Para ser reconhecido automaticamente no Microsoft Excel use ";", não ","}
+  Enclosure: Char = '"';
+var
+  List: TStringList;
+  S: String;
+  I: Integer;
+  function EscapeString(s: string): string;
+  var
+    i: Integer;
+  begin
+    Result := StringReplace(s,Enclosure,Enclosure+Enclosure,[rfReplaceAll]);
+    if (Pos(Delimiter,s) > 0) OR (Pos(Enclosure,s) > 0) then
+      Result := Enclosure+Result+Enclosure;
+  end;
+  {cria cabeçalho}
+  procedure AddHeader();
+  var
+    I: Integer;
+  begin
+    S := '';
+    for I := 0 to QueryCsv.FieldCount - 1 do begin
+      if S > '' then
+        S := S + Delimiter;
+      S := S + EscapeString(QueryCsv.Fields[I].FieldName);
+    end;
+    List.Add(S);
+  end;
+  procedure AddRecord();
+  var
+    I: Integer;
+  begin
+    S := '';
+    for I := 0 to QueryCsv.FieldCount - 1 do
+    begin
+      if S > '' then
+        S := S + Delimiter;
+      S := S + EscapeString(QueryCsv.Fields[I].AsString);
+    end;
+    List.Add(S);
+  end;
+begin
+  Result := False;
+
+  if(QueryCsv.IsEmpty)then
+    Exit;
+
+  List := TStringList.Create;
+  try
+    QueryCsv.First;
+    AddHeader();
+    while not QueryCsv.Eof do
+    begin
+      AddRecord;
+      QueryCsv.Next;
+    end;
+    FileName := ChangeFileExt(FileName, '.csv');
+    List.SaveToFile(FileName);
+
+    Result := FileExists(FileName);
+  finally
+    //QueryCsv.close;
+   // QueryCsv.Free;
+    List.Free;
+  end;
+end;
+
+function ReplaceParams(pTextoSQL: string; pParam1, pParam2: string): string;
+begin
+  Result :=  StringReplace(pTextoSQL,
+                                   ':Value1',
+                                   '"'+pParam1+'"',
+                                   [rfReplaceAll]);
+
+  Result :=  StringReplace(Result,
+                                   ':Value2',
+                                   '"'+pParam2+'"',
+                                   [rfReplaceAll]);
+end;
+
+function FieldTypeToStr(AType: TFieldType; Sender: TObject): string;
+begin
+  case AType of
+    ftString: Result := 'String';
+    ftSmallint: Result := 'Smallint';
+    ftInteger: Result := 'Integer';
+    ftWord: Result := 'Word';
+    ftBoolean: Result := 'Boolean';
+    ftFloat: Result := 'Float';
+    ftCurrency: Result := 'Currency';
+    ftBCD: Result := 'BCD';
+    ftDate: Result := 'Date';
+    ftTime: Result := 'Time';
+    ftDateTime: Result := 'DateTime';
+    ftMemo: Result := 'Memo';
+    ftBlob: Result := 'Blob';
+    ftGraphic: Result := 'Graphic';
+    ftFmtMemo: Result := 'FmtMemo';
+    ftParadoxOle: Result := 'ParadoxOle';
+    ftDBaseOle: Result := 'DBaseOle';
+    ftTypedBinary: Result := 'TypedBinary';
+    ftCursor: Result := 'Cursor';
+    ftFixedChar: Result := 'FixedChar';
+    ftWideString: Result := 'WideString';
+    ftLargeint: Result := 'Largeint';
+    ftADT: Result := 'ADT';
+    ftArray: Result := 'Array';
+    ftAutoInc : Result := 'AutoInc';
+    else Result := 'Unknown';
+  end;
+end;
+
+
+
+end.

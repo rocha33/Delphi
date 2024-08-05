@@ -1,0 +1,511 @@
+unit Main;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,  Data.DB, FireDAC.Comp.Client, FireDAC.Stan.Param,
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf,
+  FireDAC.Phys.Intf, FireDAC.Stan.Def, FireDAC.Stan.Pool, FireDAC.Stan.Async,
+  FireDAC.Phys, FireDAC.VCLUI.Wait, FireDAC.DatS, FireDAC.DApt.Intf,
+  FireDAC.DApt, FireDAC.Phys.MySQLDef, FireDAC.Phys.MySQL, FireDAC.Comp.DataSet,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls, Vcl.ComCtrls, IniFiles, Vcl.Buttons,
+  Vcl.CheckLst, Vcl.Menus;
+
+type
+  TPrincipal = class(TForm)
+    FDConnection: TFDConnection;
+    sqlQueryPrincipal: TFDQuery;
+    dtsPrincipal: TDataSource;
+    FDPhysMySQLDriverLink1: TFDPhysMySQLDriverLink;
+    Panel2: TPanel;
+    gridDados: TDBGrid;
+    Panel3: TPanel;
+    PanelFiltros: TPanel;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    cmbCampoWhere: TComboBox;
+    ComboBoxOperator: TComboBox;
+    ComboBoxTabelas: TComboBox;
+    chkTipoDate: TCheckBox;
+    pnlData: TPanel;
+    dtValor1: TDateTimePicker;
+    dtvalor2: TDateTimePicker;
+    pnlNumeros: TPanel;
+    EditValue1: TEdit;
+    EditValue2: TEdit;
+    GroupBox1: TGroupBox;
+    mmQuery: TMemo;
+    btnFiltrar: TButton;
+    pnlCamposSelecionar: TPanel;
+    Label5: TLabel;
+    btnExportarCSV: TBitBtn;
+    ListCamposTabela: TCheckListBox;
+    ListcamposOrdenar: TCheckListBox;
+    Label4: TLabel;
+    Label6: TLabel;
+    ListcamposAgrupar: TCheckListBox;
+    popSelecionar: TPopupMenu;
+    mnuMarcarTodos: TMenuItem;
+    mnuDesmarcarTodos: TMenuItem;
+    lblExemplo: TLabel;
+    Label7: TLabel;
+    lblTotais: TLabel;
+    btnHelp: TButton;
+    dialogExportCSV: TSaveDialog;
+    procedure btnFiltrarClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
+    procedure ComboBoxTabelasChange(Sender: TObject);
+    procedure ComboBoxOperatorChange(Sender: TObject);
+    procedure chkTipoDateClick(Sender: TObject);
+    procedure btnExportarCSVClick(Sender: TObject);
+    procedure cmbCampoWhereChange(Sender: TObject);
+    procedure popSelecao(Sender: TObject);
+    procedure btnHelpClick(Sender: TObject);
+  private
+    { Private declarations }
+   ini: TIniFile;
+   FDatabase: string;
+   FPorta: Integer;
+   FLogin: string;
+   FHost: string;
+   FSenha: string;
+
+   function CnectarDb(): Boolean;
+   procedure GenerateSQL;
+   procedure CarregarTabelas;
+   procedure CarregarCampos(const NomeTabela: string);
+   procedure Lerini();
+  public
+    { Public declarations }
+  end;
+
+var
+  Principal: TPrincipal;
+
+implementation
+   uses Rotinas;
+{$R *.dfm}
+
+procedure TPrincipal.btnExportarCSVClick(Sender: TObject);
+begin
+
+  if not sqlQueryPrincipal.IsEmpty then
+  begin
+    if dialogExportCSV.Execute then
+    begin
+      ExportarQueryCSV(sqlQueryPrincipal, dialogExportCSV.FileName + '.csv');
+      if FileExists(dialogExportCSV.FileName + '.csv') then
+        ShowMessage('Exportado com sucesso.');
+    end;
+
+  end;
+
+
+end;
+
+procedure TPrincipal.btnFiltrarClick(Sender: TObject);
+begin
+  GenerateSQL;
+end;
+
+procedure TPrincipal.GenerateSQL;
+var
+  SQL: string;
+  vTabela, FieldWhere, vOperator, vParametros: string;
+  Value1, Value2: Variant;
+  I: Integer;
+  vList: TStringList;
+
+  FieldProp: TField;
+  FieldType :string;
+
+  function FormatarCamposSelect(): string;
+  var
+    I: Integer;
+    CamposSelect: String;
+  begin
+    Result := '';
+    for I := 0 to ListCamposTabela.Items.Count - 1 do
+    begin
+      if ListCamposTabela.Checked[i] then
+      begin
+        if Result <> '' then
+          Result := Result + ', ';
+        Result := Result + ListCamposTabela.Items[I];
+      end;
+
+    end;
+
+    if Result = EmptyStr then
+      Result := '*';
+  end;
+
+  function FormatarCamposOrderBy(): string;
+  var
+    I: Integer;
+    CamposSelect: String;
+  begin
+    Result := '';
+    for I := 0 to ListcamposOrdenar.Items.Count - 1 do
+    begin
+      if ListcamposOrdenar.Checked[i] then
+      begin
+        if Result <> '' then
+          Result := Result + ', ';
+        Result := Result + ListcamposOrdenar.Items[I];
+      end;
+
+    end;
+
+    if Result <> EmptyStr then
+      Result := ' ORDER BY ' + Result;
+  end;
+
+  function FormatarCamposGroupBy(): string;
+  var
+    I: Integer;
+    CamposSelect: String;
+  begin
+    Result := '';
+    for I := 0 to ListcamposAgrupar.Items.Count - 1 do
+    begin
+      if ListcamposAgrupar.Checked[i] then
+      begin
+        if Result <> '' then
+          Result := Result + ', ';
+        Result := Result + ListcamposAgrupar.Items[I];
+      end;
+
+    end;
+
+    if Result <> EmptyStr then
+      Result := ' GROUP BY ' + Result;
+  end;
+
+begin
+
+  // Obtém os valores dos filtros definidos pelo usuário
+  vTabela   := StringReplace(ComboBoxTabelas.Text, FDatabase + '.', '', [rfReplaceAll]);
+  vParametros := ' :Value1 ';
+  FieldWhere := '';
+  if cmbCampoWhere.Text <> '' then
+    FieldWhere     := ' WHERE ' + cmbCampoWhere.Text + ' ';
+
+  vOperator := ComboBoxOperator.Text;
+  Value1    := EditValue1.Text;
+  sqlQueryPrincipal.Close;
+
+  if vTabela  = '' then
+    Exit;
+
+  if ComboBoxOperator.Text = 'Between' then
+  begin
+    vParametros := ' :Value1 and :Value2 ';
+    if pnlData.Visible then
+    begin
+      Value1 := FormatDateTime('yyyy-mm-dd', dtValor1.Date);
+      Value2 := FormatDateTime('yyyy-mm-dd', dtValor2.Date);
+
+      if dtValor1.Date > dtValor2.Date then
+      begin
+        ShowMessage('Data inicial maior do que a final.');
+        Exit;
+      end;
+    end
+    else
+    begin
+      Value1 := EditValue1.Text;
+      Value2 := EditValue2.text;
+    end;
+
+    if Value1 = '' then
+    begin
+      ShowMessage('Campo 1 inválido');
+      Exit;
+    end;
+     if Value2 = '' then
+    begin
+      ShowMessage('Campo 2 inválido');
+      Exit;
+    end;
+  end
+  else if ComboBoxOperator.Text = 'IN' then
+  begin
+    if Value1 = '' then
+    begin
+      ShowMessage('Campo inválido');
+      Exit;
+    end;
+    Value1 := Trim(EditValue1.Text);
+
+    vList:= TStringList.Create;
+    vList.Text := StringReplace(Value1,',',#13,[rfReplaceAll]);
+
+    if vList.Count = 0 then
+      ShowMessage('Solicitação incorreta. '+#13+ 'Operador incorreto deve ser separado por "," exemplo 1,2,3');
+
+    for i := 0 to vList.Count - 1 do
+    begin
+      if i > 0 then
+        Value1 := Value1 +','+ QuotedStr(vList[i])
+      else
+        Value1 :=  QuotedStr(vList[i]);
+    end;
+
+    vParametros := ' ('+Value1+') ';
+  end
+  else  if ComboBoxOperator.Text = 'Like' then
+  begin
+    // vParametros := Value1;
+  end
+  else
+  begin
+    if chkTipoDate.Checked then
+      Value1 := FormatDateTime('yyyy-mm-dd', dtValor1.Date);
+  end;
+
+  if ComboBoxOperator.Text = '' then
+    vParametros := '';
+
+  if (Value1 = '') and (vParametros <> '') then
+    vParametros := '""';
+
+  // Constrói a consulta SQL dinamicamente
+  SQL := 'SELECT '+ FormatarCamposSelect +
+                     ' FROM '+ vTabela +
+                     FieldWhere + vOperator +
+                     vParametros +
+                     FormatarCamposGroupBy +
+                     FormatarCamposOrderBy ;
+
+
+  sqlQueryPrincipal.SQL.Text := SQL;
+
+  if ComboBoxOperator.Text <> 'IN' then
+  begin
+    // Define o valor do parâmetro
+    if Value1 <> '' then
+      sqlQueryPrincipal.ParamByName('Value1').AsString := Value1;
+
+    if Value2 <> '' then
+      sqlQueryPrincipal.ParamByName('Value2').AsString := Value2;
+  end;
+
+  sqlQueryPrincipal.Open;
+
+  if not sqlQueryPrincipal.IsEmpty then
+    lblTotais.Caption := IntToStr(sqlQueryPrincipal.RecordCount);
+
+  mmQuery.Text := ReplaceParams(sqlQueryPrincipal.SQL.Text, Value1, Value2);
+
+end;
+
+procedure TPrincipal.Lerini;
+  var
+  IniFile: TIniFile;
+  Nome: string;
+  Idade: Integer;
+  vPathIni: string;
+begin
+  vPathIni := ExtractFilePath(ParamStr(0)) + 'sqlreg.ini';
+
+  if not FileExists(vPathIni) then
+  begin
+    ShowMessage('Arquivo .ini de configurações não encontrado.');
+    Exit;
+  end;
+
+  IniFile := TIniFile.Create(vPathIni);
+  try
+    FDatabase  := Trim(IniFile.ReadString('cfg', 'DataBase', 'escriba'));
+    FPorta     := IniFile.ReadInteger('cfg', 'Porta', 3306);
+    FLogin     := Trim(IniFile.ReadString('cfg', 'Login', 'escriba'));
+    FHost      := IniFile.ReadString('cfg', 'Host', '10.0.0.20');
+    FSenha     := Decripta(IniFile.ReadString('cfg', 'Senha', 'scrib130'));
+
+  finally
+    IniFile.Free;
+  end;
+end;
+
+
+procedure TPrincipal.popSelecao(Sender: TObject);
+var i: Integer;
+begin
+  if Sender is TMenuItem then
+  begin
+    for I := 0 to ListCamposTabela.Items.Count - 1 do
+      ListCamposTabela.Checked[i] := Sender = mnuMarcarTodos;
+  end;
+end;
+
+procedure TPrincipal.CarregarTabelas;
+var vList :TstringList;
+    I: Integer;
+begin
+  vList := TstringList.Create;
+  try
+    FDConnection.GetTableNames('', '', '', vList);
+    vList.Text :=  StringReplace(vList.Text, FDatabase + '.', '', [rfReplaceAll]);
+    ComboBoxTabelas.Items.Assign(vList);
+  finally
+    vList.Free;
+  end;
+
+end;
+
+procedure TPrincipal.chkTipoDateClick(Sender: TObject);
+begin
+  pnlData.Visible := chkTipoDate.Checked;
+  pnlNumeros.Visible := not chkTipoDate.Checked;
+end;
+
+procedure TPrincipal.cmbCampoWhereChange(Sender: TObject);
+var  FieldType :string;
+     FDTable: TFDTable;
+     FieldDef: TFieldDef;
+     AType: TFieldType;
+begin
+
+  FDTable := TFDTable.Create(nil);
+  try
+    if ComboBoxTabelas.Text <> '' then
+    begin
+      FDTable.Connection := FDConnection; // Substitua pelo seu objeto de conexão FDConnection
+      FDTable.TableName := ComboBoxTabelas.Text; // Substitua pelo nome da sua tabela
+      FDTable.Open;
+
+      FDTable.FieldDefs.Update;
+
+      if Trim(cmbCampoWhere.Text) <> '' then
+      begin
+        FieldDef := FDTable.FieldDefs.Find(cmbCampoWhere.Text);
+        chkTipoDate.Checked := FieldDef.DataType = ftDate;
+
+      end;
+    end;
+
+    ComboBoxOperator.Enabled := ComboBoxTabelas.Text <> '';
+
+    if ComboBoxOperator.ItemIndex = -1 then
+      ComboBoxOperator.ItemIndex := 0;
+
+    ComboBoxOperatorChange(sender);
+
+  finally
+    FDTable.Free;
+  end;
+
+end;
+
+procedure TPrincipal.CarregarCampos(const NomeTabela: string);
+var vList :TstringList;
+begin
+  vList := TstringList.Create;
+  try
+    FDConnection.GetFieldNames('', '', NomeTabela, '', vList);
+    cmbCampoWhere.Items.Clear;
+    ComboBoxOperator.ItemIndex := -1;
+    ListCamposTabela.Clear;
+    ListcamposAgrupar.Clear;
+    ListcamposOrdenar.Clear;
+    EditValue1.Clear;
+    EditValue2.Clear;
+    cmbCampoWhere.Items.Assign(vList);
+    ListCamposTabela.Items.Assign(vList);
+    ListcamposOrdenar.Items.Assign(vList);
+    ListcamposAgrupar.Items.Assign(vList);
+
+    ComboBoxOperatorChange(nil);
+
+    popSelecao(mnuMarcarTodos);
+
+  finally
+    vList.Free;
+  end;
+
+end;
+
+function TPrincipal.CnectarDb: Boolean;
+begin
+  Lerini();
+  try
+    FDConnection.DriverName := 'MySQL';
+    FDConnection.Params.Values['Server']    := FHost; // Endereço do servidor
+    FDConnection.Params.Values['Database']  := FDatabase; // Nome do banco de dados
+    FDConnection.Params.Values['User_Name'] := FLogin; // Nome de usuário do banco de dados
+    FDConnection.Params.Values['Password']  := FSenha; // Senha do banco de dados
+    FDConnection.Params.Values['Port']      := IntToStr(FPorta); // Porta do servidor MySQL (opcional)
+    FDConnection.LoginPrompt := False; // Desabilitar prompt de login
+   // FDConnection.Params.Values['UseSSL'] := 'False';
+    FDConnection.Connected := True;  // Abre a conexão
+
+    dtsPrincipal.DataSet := sqlQueryPrincipal;
+
+    CarregarTabelas;
+  except
+    on E: Exception do
+      ShowMessage('Erro ao conectar ao banco de dados: ' + E.Message +  #13 +
+          'Host: '+FHost +#13 + ' Porta: '+IntToStr(FPorta) +#13+
+          ' DataBase: '+ FDatabase + #13+ ' Login: '+ FLogin + ' Senha: '+ FSenha);
+  end;
+end;
+
+procedure TPrincipal.ComboBoxOperatorChange(Sender: TObject);
+begin
+  lblExemplo.Caption := '';
+  EditValue2.Visible := ComboBoxOperator.Text = 'Between';
+  dtvalor2.Visible   := ComboBoxOperator.Text = 'Between';
+
+  EditValue1.Width := EditValue2.Width;
+  chkTipoDate.Visible := true;
+  if ComboBoxOperator.Text = 'IN' then
+  begin
+    EditValue1.Width := EditValue1.Width * 2;
+    chkTipoDate.Visible := False;
+    chkTipoDate.Checked := False;
+
+    btnHelp.Hint := 'Exemplo de entrada 1,2,3 ou maria, joao, josé' +#13 + 'Os itens devem ser separados por vírgula';
+
+    lblExemplo.Caption := 'Exemplo de entrada 1,2,3 ou maria, joao, josé';
+  end
+  else if ComboBoxOperator.Text = 'Like' then
+  begin
+    EditValue1.Width := EditValue1.Width * 2;
+    chkTipoDate.Visible := False;
+    chkTipoDate.Checked := False;
+
+    lblExemplo.Caption := '';
+    btnHelp.Hint := 'Exemplo de entrada '+#13+'Trazer nomes que iniciar com maria% '+#13+
+                         '2 - Exp. nomes que terminam com %santos '+#13+
+                         '3 - Exp. nomes que contem %joao% etc.';
+  end;
+
+
+end;
+
+procedure TPrincipal.btnHelpClick(Sender: TObject);
+begin
+  if ComboBoxOperator.Text = 'IN' then
+
+end;
+
+
+procedure TPrincipal.ComboBoxTabelasChange(Sender: TObject);
+begin
+  CarregarCampos(ComboBoxTabelas.Text);
+end;
+
+procedure TPrincipal.FormCreate(Sender: TObject);
+begin
+  pnlNumeros.Top  := chkTipoDate.Top + 20;
+  pnlNumeros.Left := chkTipoDate.Left + 3;
+  pnlData.Top     := pnlNumeros.Top;
+  pnlData.Left    := pnlNumeros.Left;
+
+  CnectarDb();
+end;
+
+end.

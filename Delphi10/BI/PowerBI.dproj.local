@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/07/01 10:01:24.000.372,=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/07/01 10:10:43.000.609,C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.dfm=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\BI\Main.dfm</Transaction>
+    <Transaction>2024/07/01 10:10:43.000.609,C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.pas=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\BI\Main.pas</Transaction>
+    <Transaction>2024/07/01 10:10:57.000.648,C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Project1.dproj=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\BI\PowerBI.dproj</Transaction>
+    <Transaction>2024/07/16 15:40:43.000.553,=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\BI\Unit1.pas</Transaction>
+    <Transaction>2024/07/16 15:44:59.000.229,C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\BI\Unit1.pas=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\BI\Rotinas.pas</Transaction>
+  </Transactions>
+</BorlandProject>
