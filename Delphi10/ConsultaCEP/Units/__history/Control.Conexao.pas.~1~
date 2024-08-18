@@ -1,0 +1,77 @@
+unit Control.Conexao;
+
+interface
+
+uses
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, Data.DB, FireDAC.Comp.Client, FireDAC.Phys.MySQLDef,
+  FireDAC.Phys.FB, System.SysUtils, FireDAC.DApt, FireDAC.VCLUI.Wait,
+  Vcl.Forms;
+
+type
+  TConexao = class
+  private
+    FConnection: TFDConnection;
+    procedure ConfigurarConexao;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    function GetConn: TFDConnection;
+    function CriarQuery: TFDQuery;
+  end;
+
+implementation
+
+{ TConexao }
+
+procedure TConexao.ConfigurarConexao;
+begin
+ { FConnection.Params.DriverID := 'FB';
+  FConnection.Params.Database := ExtractFileDir(Application.ExeName)+'\Database\CONSULTACEPDB.FDB';
+  FConnection.Params.UserName := 'SYSDBA';
+  FConnection.Params.Password := 'masterkey';
+  FConnection.LoginPrompt     := False;  }
+
+
+  FConnection.DriverName := 'MySQL';
+  FConnection.Params.Values['Server']    := '10.0.0.20'; // Endereço do servidor
+  FConnection.Params.Values['Database']  := 'sp_00776_sqlreg_13122022'; // Nome do banco de dados
+  FConnection.Params.Values['User_Name'] := 'escriba'; // Nome de usuário do banco de dados
+  FConnection.Params.Values['Password']  := 'scrib130'; // Senha do banco de dados
+  FConnection.Params.Values['Port']      := '6100'; // Porta do servidor MySQL (opcional)
+  FConnection.LoginPrompt := False; // Desabilitar prompt de login
+  FConnection.Connected := True;  // Abre a conexão
+
+end;
+
+constructor TConexao.Create;
+begin
+  FConnection := TFDConnection.Create(nil);
+
+  Self.ConfigurarConexao();
+end;
+
+function TConexao.CriarQuery: TFDQuery;
+var
+  VQuery: TFDQuery;
+begin
+  VQuery := TFDQuery.Create(nil);
+  VQuery.Connection := FConnection;
+
+  Result := VQuery;
+end;
+
+destructor TConexao.Destroy;
+begin
+  FConnection.Free;
+
+  inherited;
+end;
+
+function TConexao.GetConn: TFDConnection;
+begin
+  Result := FConnection;
+end;
+
+end.

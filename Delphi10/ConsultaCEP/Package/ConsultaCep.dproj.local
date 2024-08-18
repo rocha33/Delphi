@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/01/04 20:49:07.000.030,=E:\Massini\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/07/07 22:35:25.000.980,=E:\Massini\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/07/07 22:57:21.000.510,D:\SoftPlan 2024\Units\frmPrincipal.dfm=E:\Massini\Documentos\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2024/07/07 22:57:21.000.510,D:\SoftPlan 2024\Units\frmPrincipal.pas=E:\Massini\Documentos\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/07/07 22:57:46.000.540,D:\SoftPlan 2024\Units\uPrincipal.pas=D:\SoftPlan 2024\Units\frmPrincipal.pas</Transaction>
+    <Transaction>2024/07/07 22:57:46.000.540,D:\SoftPlan 2024\Units\uPrincipal.dfm=D:\SoftPlan 2024\Units\frmPrincipal.dfm</Transaction>
+    <Transaction>2024/07/07 23:38:23.000.272,D:\SoftPlan 2024\Package\SoftplanConsultaCep.dproj=E:\Massini\Documentos\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/07/07 23:46:29.000.226,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/07 23:46:43.000.746,D:\SoftPlan 2024\Units\uLogin.pas=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/07 23:46:43.000.746,D:\SoftPlan 2024\Units\uLogin.dfm=D:\SoftPlan 2024\Package\Unit1.dfm</Transaction>
+    <Transaction>2024/07/08 00:08:39.000.593,=D:\SoftPlan 2024\Package\Unit2.pas</Transaction>
+    <Transaction>2024/07/08 00:09:10.000.324,D:\SoftPlan 2024\Units\ufrmBase.dfm=D:\SoftPlan 2024\Package\Unit2.dfm</Transaction>
+    <Transaction>2024/07/08 00:09:10.000.324,D:\SoftPlan 2024\Units\ufrmBase.pas=D:\SoftPlan 2024\Package\Unit2.pas</Transaction>
+    <Transaction>2024/07/08 00:12:11.000.560,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/08 00:12:27.000.496,D:\SoftPlan 2024\Units\ufrmSobre.pas=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/08 00:12:27.000.496,D:\SoftPlan 2024\Units\ufrmSobre.dfm=D:\SoftPlan 2024\Package\Unit1.dfm</Transaction>
+    <Transaction>2024/07/08 00:49:08.000.054,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/08 00:49:59.000.578,D:\SoftPlan 2024\Units\ufrmConsultarCEP.pas=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/08 00:49:59.000.578,D:\SoftPlan 2024\Units\ufrmConsultarCEP.dfm=D:\SoftPlan 2024\Package\Unit1.dfm</Transaction>
+    <Transaction>2024/07/08 12:23:20.000.157,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/08 12:24:07.000.095,D:\SoftPlan 2024\Package\Unit1.pas=D:\SoftPlan 2024\DataModule\udtmConexao.pas</Transaction>
+    <Transaction>2024/07/08 12:24:07.000.095,D:\SoftPlan 2024\Package\Unit1.dfm=D:\SoftPlan 2024\DataModule\udtmConexao.dfm</Transaction>
+    <Transaction>2024/07/09 13:08:16.000.736,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 13:08:46.000.516,D:\SoftPlan 2024\Package\Unit1.pas=D:\SoftPlan 2024\Units\uConexao.pas</Transaction>
+    <Transaction>2024/07/09 14:28:08.000.193,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:29:24.000.704,D:\SoftPlan 2024\Units\uAuxiliar.pas=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:29:38.000.584,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:30:25.000.239,D:\SoftPlan 2024\Units\model.Cep.pas=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:31:02.000.802,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:32:16.000.008,D:\SoftPlan 2024\Units\Dao.Cep.pas=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:32:30.000.203,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:32:58.000.415,D:\SoftPlan 2024\Units\Control.Cep.pas=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 14:33:26.000.588,D:\SoftPlan 2024\Units\View.frmBase.pas=D:\SoftPlan 2024\Units\ufrmBase.pas</Transaction>
+    <Transaction>2024/07/09 14:33:26.000.588,D:\SoftPlan 2024\Units\View.frmBase.dfm=D:\SoftPlan 2024\Units\ufrmBase.dfm</Transaction>
+    <Transaction>2024/07/09 14:34:22.000.063,D:\SoftPlan 2024\Units\View.frmConsultarCEP.dfm=D:\SoftPlan 2024\Units\ufrmConsultarCEP.dfm</Transaction>
+    <Transaction>2024/07/09 14:34:22.000.063,D:\SoftPlan 2024\Units\View.frmConsultarCEP.pas=D:\SoftPlan 2024\Units\ufrmConsultarCEP.pas</Transaction>
+    <Transaction>2024/07/09 14:34:28.000.440,D:\SoftPlan 2024\Units\View.frmSobre.pas=D:\SoftPlan 2024\Units\ufrmSobre.pas</Transaction>
+    <Transaction>2024/07/09 14:34:28.000.440,D:\SoftPlan 2024\Units\View.frmSobre.dfm=D:\SoftPlan 2024\Units\ufrmSobre.dfm</Transaction>
+    <Transaction>2024/07/09 14:34:33.000.789,D:\SoftPlan 2024\Units\View.Principal.dfm=D:\SoftPlan 2024\Units\uPrincipal.dfm</Transaction>
+    <Transaction>2024/07/09 14:34:33.000.789,D:\SoftPlan 2024\Units\View.Principal.pas=D:\SoftPlan 2024\Units\uPrincipal.pas</Transaction>
+    <Transaction>2024/07/09 15:12:51.000.658,=D:\SoftPlan 2024\Package\Unit1.pas</Transaction>
+    <Transaction>2024/07/09 15:14:07.000.246,D:\SoftPlan 2024\Package\Unit1.pas=D:\SoftPlan 2024\Units\Control.Sistema.pas</Transaction>
+    <Transaction>2024/07/09 15:15:48.000.048,D:\SoftPlan 2024\Units\View.frmSobre.dfm=D:\SoftPlan 2024\Units\View.obre.dfm</Transaction>
+    <Transaction>2024/07/09 15:15:48.000.048,D:\SoftPlan 2024\Units\View.frmSobre.pas=D:\SoftPlan 2024\Units\View.obre.pas</Transaction>
+    <Transaction>2024/07/09 15:15:51.000.913,D:\SoftPlan 2024\Units\View.obre.dfm=D:\SoftPlan 2024\Units\View.Sobre.dfm</Transaction>
+    <Transaction>2024/07/09 15:15:51.000.913,D:\SoftPlan 2024\Units\View.obre.pas=D:\SoftPlan 2024\Units\View.Sobre.pas</Transaction>
+    <Transaction>2024/07/09 15:15:56.000.788,D:\SoftPlan 2024\Units\View.frmConsultarCEP.pas=D:\SoftPlan 2024\Units\View.ConsultarCEP.pas</Transaction>
+    <Transaction>2024/07/09 15:15:56.000.788,D:\SoftPlan 2024\Units\View.frmConsultarCEP.dfm=D:\SoftPlan 2024\Units\View.ConsultarCEP.dfm</Transaction>
+    <Transaction>2024/07/09 21:03:18.000.701,D:\SoftPlan 2024\Units\uLogin.pas=</Transaction>
+    <Transaction>2024/07/09 21:03:31.000.059,D:\SoftPlan 2024\Units\View.Principal.pas=</Transaction>
+    <Transaction>2024/07/09 21:03:50.000.727,=D:\SoftPlan 2024\Units\View.Principal.pas</Transaction>
+    <Transaction>2024/07/10 09:15:37.000.572,E:\Massini\Documentos\GitHub\ConsultaCEP\Units\uConexao.pas=E:\Massini\Documentos\GitHub\ConsultaCEP\Units\Control.pas</Transaction>
+    <Transaction>2024/07/10 09:15:41.000.513,E:\Massini\Documentos\GitHub\ConsultaCEP\Units\Control.Conexao=E:\Massini\Documentos\GitHub\ConsultaCEP\Units\Control.Conexao.Conexao</Transaction>
+    <Transaction>2024/08/15 14:13:44.000.443,=C:\Users\valdecir.rocha\Documents\Projeto Delphi10\ConsultaCEP-main\Units\Rotina.pas</Transaction>
+  </Transactions>
+</BorlandProject>

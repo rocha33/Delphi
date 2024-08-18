@@ -1,0 +1,79 @@
+inherited frmSobre: TfrmSobre
+  BorderStyle = bsSingle
+  Caption = 'Sobre'
+  ClientHeight = 116
+  ClientWidth = 492
+  ExplicitWidth = 498
+  ExplicitHeight = 145
+  PixelsPerInch = 96
+  TextHeight = 15
+  inherited stbHora: TStatusBar
+    Top = 97
+    Width = 492
+    ExplicitTop = 97
+    ExplicitWidth = 492
+  end
+  object Panel1: TPanel [1]
+    Left = 0
+    Top = 0
+    Width = 492
+    Height = 97
+    Align = alClient
+    Color = clSkyBlue
+    ParentBackground = False
+    TabOrder = 1
+    object Label1: TLabel
+      Left = 120
+      Top = 24
+      Width = 257
+      Height = 17
+      Caption = 'Desenvolvido por Valdecir Antonio Rocha'
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -13
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentFont = False
+    end
+    object LinkLabel1: TLinkLabel
+      Left = 232
+      Top = 47
+      Width = 42
+      Height = 19
+      Caption = '<a href="https://github.com/rocha33/">Github</a>'
+      Color = clGreen
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 0
+      OnClick = LinkLabel1Click
+    end
+    object LinkLabel2: TLinkLabel
+      Left = 232
+      Top = 72
+      Width = 60
+      Height = 19
+      Caption = 
+        '<a href="https://www.linkedin.com/in/valdecir-antonio-rocha-dese' +
+        'nvolvimento/">linkedin</a>'
+      Color = clGreen
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clBlue
+      Font.Height = -12
+      Font.Name = 'Segoe UI'
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 1
+      OnClick = LinkLabel2Click
+    end
+  end
+  inherited Timer1: TTimer
+    Left = 8
+    Top = 8
+  end
+end
