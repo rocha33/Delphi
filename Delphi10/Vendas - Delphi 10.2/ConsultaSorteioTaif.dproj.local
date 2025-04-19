@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2025/04/12 09:48:01.000.212,=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:09:06.000.117,=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/04/12 10:11:41.000.999,C:\Users\Desenvolvedor\Documents\teste Questor\Principal.pas=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:11:41.000.999,C:\Users\Desenvolvedor\Documents\teste Questor\Principal.dfm=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2025/04/12 10:11:57.000.805,C:\Users\Desenvolvedor\Documents\teste Questor\model.pas=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2025/04/12 10:14:39.000.069,C:\Users\Desenvolvedor\Documents\teste Questor\ConsultaSorteioTaif.dproj=C:\Users\Desenvolvedor\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2025/04/12 10:20:01.000.967,=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:27:04.000.725,C:\Users\Desenvolvedor\Documents\teste Questor\ServiceCliente.pas=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:28:50.000.367,=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:29:23.000.519,C:\Users\Desenvolvedor\Documents\teste Questor\ServiceCarro.pas=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:29:38.000.330,=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:30:02.000.036,C:\Users\Desenvolvedor\Documents\teste Questor\ServiceVenda.pas=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:37:37.000.283,=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 10:38:22.000.498,C:\Users\Desenvolvedor\Documents\teste Questor\DataAccess.pas=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 15:11:41.000.169,=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 15:12:26.000.150,C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas=C:\Users\Desenvolvedor\Documents\teste Questor\models\modelCliente.pas</Transaction>
+    <Transaction>2025/04/12 15:12:44.000.212,=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 15:13:06.000.315,C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas=C:\Users\Desenvolvedor\Documents\teste Questor\models\modelCarros.pas</Transaction>
+    <Transaction>2025/04/12 15:13:26.000.067,=C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas</Transaction>
+    <Transaction>2025/04/12 15:13:43.000.638,C:\Users\Desenvolvedor\Documents\teste Questor\Unit1.pas=C:\Users\Desenvolvedor\Documents\teste Questor\models\modelVenda.pas</Transaction>
+    <Transaction>2025/04/12 15:14:34.000.091,C:\Users\Desenvolvedor\Documents\teste Questor\model.pas=</Transaction>
+    <Transaction>2025/04/12 15:18:46.000.441,C:\Users\Desenvolvedor\Documents\teste Questor\ServiceCarro.pas=</Transaction>
+    <Transaction>2025/04/12 15:18:57.000.644,C:\Users\Desenvolvedor\Documents\teste Questor\ServiceVenda.pas=</Transaction>
+    <Transaction>2025/04/12 15:19:06.000.194,=C:\Users\Desenvolvedor\Documents\teste Questor\services\ServiceCliente.pas</Transaction>
+    <Transaction>2025/04/12 15:19:06.000.178,=C:\Users\Desenvolvedor\Documents\teste Questor\services\ServiceCarro.pas</Transaction>
+    <Transaction>2025/04/12 15:19:06.000.202,=C:\Users\Desenvolvedor\Documents\teste Questor\services\ServiceVenda.pas</Transaction>
+  </Transactions>
+</BorlandProject>
