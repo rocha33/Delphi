@@ -73,6 +73,12 @@ Diretorio base de dados: \DataBase\DATABASE.FDB que se encontra junto com o **Ma
 Abra o Prompt de Comando como administrador:
 Pressione Win + S, digite cmd, clique com o botão direito em "Prompt de Comando" e selecione Executar como administrador.
 Navegue até o diretório onde o MainPedidos.exe está localizado: cd caminho\para\seu\projeto\MainPedidos
+
+<h1 align="center">
+    <img alt="Tela" title="Tela" src="./img/prompt.JPG.JPG" />
+</h1>
+
+<br>
 ● copie MainPedidos.exe /install
 
 <br>
@@ -93,7 +99,7 @@ Existe um arquivo ServicoLog.txt que se encontra junto com o **MainPedidos.exe**
 <br>
 
 **Desinstalar o Serviço:**<br>
-MainPedidos.exe /uninstall
+● MainPedidos.exe /uninstall
 
 <br>
 
