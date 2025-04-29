@@ -2,8 +2,7 @@
 <p align="center">
  <a href="#-sobre-o-projeto">Sobre</a> •
  <a href="#-funcionalidades">Funcionalidades</a> •
- <a href="#-como-executar-o-projeto">Como executar</a> • 
-<a href="#-entendendo-as-pastas-do-projeto">Entendendo as pastas do projeto</a> • 	
+ <a href="#-como-executar-o-projeto">Como executar</a> • 	
  <a href="#-autor">Autor</a> • 
 </p>
 
