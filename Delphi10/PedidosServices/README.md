@@ -67,23 +67,35 @@ Toda a configuraçõa de banco de dados é carregada pelo aquivo ini que se enco
 Data base: 
 Diretorio base de dados: \DataBase\DATABASE.FDB que se encontra junto com o **MainPedidos.exe** dentro da pasta DataBase.
 
-**Instalar o Serviço:**
+<br>
+
+**Instalar o Serviço:**<br>
 Abra o Prompt de Comando como administrador:
 Pressione Win + S, digite cmd, clique com o botão direito em "Prompt de Comando" e selecione Executar como administrador.
 Navegue até o diretório onde o MainPedidos.exe está localizado: cd caminho\para\seu\projeto\MainPedidos
 ● copie MainPedidos.exe /install
 
-**Iniciar o Serviço:**
+<br>
+
+**Iniciar o Serviço:**<br>
 ● net start Pedidos
+
+<br>
 
 Observe O nome do serviço é Pedidos verifique se esta rodando no gerenciador de tarefas aba detalhes.
 Existe um arquivo ServicoLog.txt que se encontra junto com o **MainPedidos.exe** que é gerado para em conjunto com a tabela LOG .
 
-**Parar o Serviço:**
+<br>
+
+**Parar o Serviço:**<br>
 ● net stop Pedidos
 
-**Desinstalar o Serviço:**
+<br>
+
+**Desinstalar o Serviço:**<br>
 MainPedidos.exe /uninstall
+
+<br>
 
 ---
 
