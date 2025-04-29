@@ -84,6 +84,7 @@ Parar o Serviço:
 
 Desinstalar o Serviço:
 MainPedidos.exe /uninstall
+
 ---
 
 ## 🛠 Tecnologias
