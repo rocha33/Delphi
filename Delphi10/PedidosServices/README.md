@@ -75,7 +75,7 @@ Pressione Win + S, digite cmd, clique com o botão direito em "Prompt de Comando
 Navegue até o diretório onde o MainPedidos.exe está localizado: cd caminho\para\seu\projeto\MainPedidos
 
 <h1 align="center">
-    <img alt="Tela" title="Tela" src="./img/prompt.JPG.JPG" />
+    <img alt="prompt" title="prompt" src="./img/prompt.JPG" />
 </h1>
 
 <br>
