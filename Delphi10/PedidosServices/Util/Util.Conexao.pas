@@ -1,0 +1,104 @@
+unit Util.Conexao;
+
+interface
+
+uses
+  FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, Data.DB, FireDAC.Comp.Client,
+  FireDAC.Phys.FB, System.SysUtils, FireDAC.DApt, FireDAC.VCLUI.Wait,
+  FireDAC.Phys.FBDef, System.IniFiles,
+  Vcl.Forms;
+
+type
+  TConexao = class
+  private
+    FConnection: TFDConnection;
+    procedure ConfigurarConexao;
+  public
+    constructor Create;
+    destructor Destroy; override;
+
+    function GetConn: TFDConnection;
+    function CriarQuery: TFDQuery;
+  end;
+
+implementation
+
+{ TConexao }
+
+procedure TConexao.ConfigurarConexao;
+var IniFile: TIniFile;
+    IniPath, PathExe: string;
+
+    vDrive, vClienteLibray,vWireCrypt,vDatabase,
+    vServer, vPorta, vUser_Name,
+    vPassword,vCharacterSet: string;
+begin
+  PathExe := ExtractFilePath(ParamStr(0));
+  IniPath := PathExe + 'Conexao.ini';
+  if not FileExists(IniPath) then
+    raise Exception.Create('Arquivo Conexao.ini não encontrado em: ' + IniPath);
+
+  IniFile := TIniFile.Create(IniPath);
+  try
+    vDrive         := IniFile.ReadString('conexao', 'DriverID', 'FB');
+    vClienteLibray := IniFile.ReadString('conexao', 'ClientLibrary', '');
+    vWireCrypt     := IniFile.ReadString('conexao', 'WireCrypt', 'Disabled');
+    vDatabase      := IniFile.ReadString('conexao', 'Database', '\DataBase\DATABASE.FDB');
+    vServer        := IniFile.ReadString('conexao', 'Server', 'localhost');
+    vPorta         := IniFile.ReadString('conexao', 'Port', '3050');
+    vUser_Name     := IniFile.ReadString('conexao', 'User_Name', 'sysdba');
+    vPassword      := IniFile.ReadString('conexao', 'Password', 'masterkey');
+    vCharacterSet  := IniFile.ReadString('conexao', 'CharacterSet', 'UTF8');
+
+    FConnection.Connected := false;
+    FConnection.DriverName := 'FB';
+    FConnection.Params.Clear;
+    FConnection.Params.Add('DriverID='+ vDrive);
+    FConnection.Params.Add('ClientLibrary='+ vClienteLibray);
+    FConnection.Params.Add('WireCrypt='+ vWireCrypt);
+    FConnection.Params.Add('Database='+ PathExe+ vDatabase);
+    FConnection.Params.Add('Server='+ vServer);
+    FConnection.Params.Add('Port='+ vPorta);
+    FConnection.Params.Add('User_Name='+ vUser_Name);
+    FConnection.Params.Add('Password='+ vPassword);
+    FConnection.Params.Add('CharacterSet='+ vCharacterSet);
+
+    FConnection.Connected := True;
+
+  finally
+    IniFile.Free;
+  end;
+
+end;
+
+constructor TConexao.Create;
+begin
+  FConnection := TFDConnection.Create(nil);
+
+  Self.ConfigurarConexao();
+end;
+
+function TConexao.CriarQuery: TFDQuery;
+var
+  VQuery: TFDQuery;
+begin
+  VQuery := TFDQuery.Create(nil);
+  VQuery.Connection := FConnection;
+
+  Result := VQuery;
+end;
+
+destructor TConexao.Destroy;
+begin
+  FConnection.Free;
+
+  inherited;
+end;
+
+function TConexao.GetConn: TFDConnection;
+begin
+  Result := FConnection;
+end;
+
+end.
