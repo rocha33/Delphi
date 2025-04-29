@@ -62,27 +62,27 @@ Firebird : https://firebirdsql.org/en/firebird-3-0-3/
 
 Ao compilar o projeto no Delphi, será gerado o arquivo **MainPedidos.exe** dentro da pasta Bin.
 
-Arquivo ini :
+**Arquivo ini:**
 Toda a configuraçõa de banco de dados é carregada pelo aquivo ini que se encontra junto com o **MainPedidos.exe**.
 Data base: 
 Diretorio base de dados: \DataBase\DATABASE.FDB que se encontra junto com o **MainPedidos.exe** dentro da pasta DataBase.
 
-Instalar o Serviço:
+**Instalar o Serviço:**
 Abra o Prompt de Comando como administrador:
 Pressione Win + S, digite cmd, clique com o botão direito em "Prompt de Comando" e selecione Executar como administrador.
 Navegue até o diretório onde o MainPedidos.exe está localizado: cd caminho\para\seu\projeto\MainPedidos
 ● copie MainPedidos.exe /install
 
-Iniciar o Serviço:
+**Iniciar o Serviço:**
 ● net start Pedidos
 
 Observe O nome do serviço é Pedidos verifique se esta rodando no gerenciador de tarefas aba detalhes.
 Existe um arquivo ServicoLog.txt que se encontra junto com o **MainPedidos.exe** que é gerado para em conjunto com a tabela LOG .
 
-Parar o Serviço:
+**Parar o Serviço:**
 ● net stop Pedidos
 
-Desinstalar o Serviço:
+**Desinstalar o Serviço:**
 MainPedidos.exe /uninstall
 
 ---
